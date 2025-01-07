@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random User Data Generator</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Random User Data</h1>
+    <table id="userTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>State</th>
+                <th>Age</th>
+                <th>Job</th>
+                <th>Gender</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be inserted here -->
+        </tbody>
+    </table>
+
+    <script>
+        function fetchData() {
+            fetch('fetch_data.php') // Fetch data from the back-end PHP file
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.querySelector('#userTable tbody');
+                    tbody.innerHTML = ''; // Clear existing data
+                    data.forEach(user => {
+                        const newRow = `<tr>
+                            <td>${user.id}</td>
+                            <td>${user.first_name}</td>
+                            <td>${user.last_name}</td>
+                            <td>${user.state}</td>
+                            <td>${user.age}</td>
+                            <td>${user.job}</td>
+                            <td>${user.gender}</td>
+                            <td>${user.created_at}</td>
+                        </tr>`;
+                        tbody.insertAdjacentHTML('beforeend', newRow);
+                    });
+                });
+        }
+
+        // Fetch new data every 3 minutes (180000 ms)
+        setInterval(fetchData, 180000);
+        fetchData(); // Initial fetch
+    </script>
+</body>
+</html>
