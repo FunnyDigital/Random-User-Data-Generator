@@ -3,6 +3,7 @@ $servername = "localhost"; // Update if necessary
 $username = "wovenhos_patrick"; // Your MySQL username
 $password = ".Kingkaveli1"; // Your MySQL password
 $dbname = "wovenhos_the_sync"; // The database you created
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -40,8 +41,13 @@ function generateRandomUserData() {
 $userData = generateRandomUserData();
 $sql = "INSERT INTO users (first_name, last_name, state, age, job, gender) VALUES (?, ?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("sssiis", $userData['first_name'], $userData['last_name'], $userData['state'], $userData['age'], $userData['job'], $userData['gender']);
-$stmt->execute();
+if (!$stmt) {
+    die("Prepare failed: " . $conn->error);
+}
+$stmt->bind_param("sssiss", $userData['first_name'], $userData['last_name'], $userData['state'], $userData['age'], $userData['job'], $userData['gender']);
+if (!$stmt->execute()) {
+    die("Execute failed: " . $stmt->error);
+}
 
 // Fetch all user data to return
 $result = $conn->query("SELECT * FROM users ORDER BY created_at DESC");
