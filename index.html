@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random User Data Generator</title>
+    <title>MTN Store Sales Data Generator</title>
     <style>
         table {
             width: 100%;
@@ -16,17 +16,15 @@
     </style>
 </head>
 <body>
-    <h1>Random User Data</h1>
-    <table id="userTable">
+    <h1>MTN Store Sales Data</h1>
+    <table id="salesTable">
         <thead>
             <tr>
                 <th>ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>State</th>
-                <th>Age</th>
-                <th>Job</th>
-                <th>Gender</th>
+                <th>Country</th>
+                <th>Product/Service</th>
+                <th>Sale Amount</th>
+                <th>Sale Date</th>
                 <th>Created At</th>
             </tr>
         </thead>
@@ -37,30 +35,27 @@
 
     <script>
         function fetchData() {
-            fetch('fetch_data.php') // Fetch data from the back-end PHP file
+            fetch('fetch_data.php')
                 .then(response => response.json())
                 .then(data => {
-                    const tbody = document.querySelector('#userTable tbody');
-                    tbody.innerHTML = ''; // Clear existing data
-                    data.forEach(user => {
+                    const tbody = document.querySelector('#salesTable tbody');
+                    tbody.innerHTML = '';
+                    data.forEach(sale => {
                         const newRow = `<tr>
-                            <td>${user.id}</td>
-                            <td>${user.first_name}</td>
-                            <td>${user.last_name}</td>
-                            <td>${user.state}</td>
-                            <td>${user.age}</td>
-                            <td>${user.job}</td>
-                            <td>${user.gender}</td>
-                            <td>${user.created_at}</td>
+                            <td>${sale.id ?? ''}</td>
+                            <td>${sale.country ?? ''}</td>
+                            <td>${sale.product ?? ''}</td>
+                            <td>${sale.sale_amount ?? ''}</td>
+                            <td>${sale.sale_date ?? ''}</td>
+                            <td>${sale.created_at ?? ''}</td>
                         </tr>`;
                         tbody.insertAdjacentHTML('beforeend', newRow);
                     });
                 });
         }
 
-        // Fetch new data every 3 minutes (180000 ms)
         setInterval(fetchData, 180000);
-        fetchData(); // Initial fetch
+        fetchData();
     </script>
 </body>
 </html>
