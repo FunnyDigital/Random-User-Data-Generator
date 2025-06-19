@@ -1,8 +1,8 @@
 <?php
 $servername = "localhost"; // Update if necessary
-$username = "wovenhos_patrick"; // Your MySQL username
+$username = "patrickc_patrick"; // Your MySQL username
 $password = ".Kingkaveli1"; // Your MySQL password
-$dbname = "wovenhos_the_sync"; // The database you created
+$dbname = "patrickc_patrickdb"; // The database you created
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 $conn = new mysqli($servername, $username, $password, $dbname);
